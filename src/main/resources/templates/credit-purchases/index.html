@@ -55,7 +55,7 @@
                     <td class="col-1"><a th:href="@{/credit-purchases/{creditPurchaseId}(creditPurchaseId = ${creditPurchase.id})}">More...</a></td>
                     <td class="col-1"><a th:href="@{/credit-purchases/{creditPurchaseId}/edit(creditPurchaseId = ${creditPurchase.id})}">Edit</a></td>
                     <td class="col-1">
-                        <a th:href="@{/credit-purchases/{creditPurchaseId}/delete(creditPurchaseId = ${creditPurchase.id})}" class="delete-link" onclick="return confirmDelete()">Delete</a>
+                        <a th:href="@{/credit-purchases/{creditPurchaseId}/delete(creditPurchaseId = ${creditPurchase.id})}" class="delete-link" onclick="return confirmDelete(this)">Delete</a>
                     </td>
                 </tr>
                 </tbody>

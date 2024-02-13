@@ -2,6 +2,7 @@ package com.mois.financeweb.controllers;
 
 import com.mois.financeweb.dto.DebitPurchaseRequisition;
 import com.mois.financeweb.models.Category;
+import com.mois.financeweb.models.CreditPurchase;
 import com.mois.financeweb.models.DebitPurchase;
 import com.mois.financeweb.models.TransactionType;
 import com.mois.financeweb.repositories.DebitPurchaseRepository;
@@ -143,7 +144,14 @@ public class DebitPurchaseController {
 
         if (optional.isPresent())
             try{
-                this.debitPurchaseRepository.deleteById(id);
+                System.out.println(optional);
+
+                // Obtém a CreditPurchase associada ao ID fornecido
+                DebitPurchase debitPurchaseToDelete = optional.get();
+
+                // Exclui a CreditPurchase
+                this.debitPurchaseRepository.delete(debitPurchaseToDelete);
+
                 mv.addObject("error", false);
                 mv.addObject("message", "Debit Purchase #" + id + " deleted successfully!");
 

@@ -139,6 +139,7 @@ public class CreditPurchaseController {
 
         if (optional.isPresent())
             try{
+                System.out.println(optional);
                 this.creditPurchaseRepository.deleteById(id);
                 mv.addObject("error", false);
                 mv.addObject("message", "Credit Purchase #" + id + " deleted successfully!");

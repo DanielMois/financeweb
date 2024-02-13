@@ -1,5 +1,29 @@
 package com.mois.financeweb.models;
 
 public enum Category {
-        ALIMENTO, TRANSPORTE, MERCADO, PESSOAL, PRESENTE, ASSINATURA, EMPRESTIMO
+        ALCOHOL,
+        BAKERY,
+        CINEMA,
+        CLOTHES,
+        DECORATION,
+        DONATIONS,
+        ELETRONICS,
+        PHARMACY,
+        FOODDELIVERY,
+        RESTAURANT,
+        GIFTS,
+        HAIRCUT,
+        HOUSEBILLS,
+        INTIMACY,
+        LOAN,
+        ONLINESTORAGE,
+        PERSONALBILLS,
+        PHYSICALEXERCISE,
+        PRIVATETRANSPORT,
+        PUBLICTRANSPORT,
+        STREAMING,
+        SUPERMARKET,
+        TRIPS,
+        OTHERS
+
 }
