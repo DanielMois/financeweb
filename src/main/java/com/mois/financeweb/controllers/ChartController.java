@@ -24,6 +24,14 @@ public class ChartController {
         return new ModelAndView("/credit-purchases/data-analysis/invoice-values");
     }
 
+    @GetMapping("/credit-purchases/getCategoryValues")
+    public List<Object[]> getTotalPriceByCategory() { return chartService.cpGetTotalPriceByCategory(); }
+
+    @GetMapping("/credit-purchases/data-analysis/category-values")
+    public ModelAndView cpShowTotalPriceByCategory() {
+        return new ModelAndView(("/credit-purchases/data-analysis/category-values"));
+    }
+
     @GetMapping("/debit-purchases/getTransactionTypeValues")
     public List<Object[]> getTotalPriceByTransactionType() {
         return chartService.getTotalPriceByTransactionType();
@@ -32,6 +40,14 @@ public class ChartController {
     @GetMapping("/debit-purchases/data-analysis/transaction-type-values")
     public ModelAndView showTotalPriceByTransactionType() {
         return new ModelAndView("/debit-purchases/data-analysis/transaction-type-values");
+    }
+
+    @GetMapping("/debit-purchases/getCategoryValues")
+    public List<Object[]> dpGetTotalPriceByCategory() { return chartService.dpGetTotalPriceByCategory(); }
+
+    @GetMapping("/debit-purchases/data-analysis/category-values")
+    public ModelAndView dpShowTotalPriceByCategory() {
+        return new ModelAndView(("/debit-purchases/data-analysis/category-values"));
     }
 
 }

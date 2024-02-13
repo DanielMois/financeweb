@@ -23,4 +23,11 @@ public class ChartService {
     public List<Object[]> getTotalPriceByInvoice() {
         return creditPurchaseRepository.findTotalPriceByInvoice();
     }
+
+    public List<Object[]> cpGetTotalPriceByCategory() {return creditPurchaseRepository.findTotalPriceByCategory(); }
+
+    public List<Object[]> dpGetTotalPriceByCategory() {return debitPurchaseRepository.findTotalPriceByCategory(); }
+
+
+
 }

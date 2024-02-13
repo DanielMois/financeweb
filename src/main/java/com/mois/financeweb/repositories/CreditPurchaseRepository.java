@@ -13,4 +13,7 @@ public interface CreditPurchaseRepository extends JpaRepository<CreditPurchase, 
     @Query("SELECT cp.invoice, SUM(cp.price) FROM CreditPurchase cp GROUP BY cp.invoice ORDER BY cp.invoice")
     List<Object[]> findTotalPriceByInvoice();
 
+    @Query("SELECT cp.category, SUM(cp.price) FROM CreditPurchase cp GROUP BY cp.category ORDER BY cp.category")
+    List<Object[]> findTotalPriceByCategory();
+
 }

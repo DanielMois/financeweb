@@ -14,4 +14,7 @@ public interface DebitPurchaseRepository extends JpaRepository<DebitPurchase, Lo
     @Query("SELECT dp.transactionType, SUM(dp.price) FROM DebitPurchase dp GROUP BY dp.transactionType ORDER BY dp.transactionType")
     List<Object[]> findTotalPriceByTransactionType();
 
+    @Query("SELECT dp.category, SUM(dp.price) FROM DebitPurchase dp GROUP BY dp.category ORDER BY dp.category")
+    List<Object[]> findTotalPriceByCategory();
+
 }
