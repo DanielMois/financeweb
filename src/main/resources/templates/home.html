@@ -1,0 +1,31 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head('')}"></head>
+
+<body>
+<header th:replace="~{fragments :: header('Finance Application | Daniel Mois')}"></header>
+
+    <main>
+        <div class="container mt-4">
+            <div class="list-group">
+                <button type="button" class="list-group-item list-group-item-action"
+                    th:onclick="'window.location.href=\'/credit-purchases\''">Credit Purchases</button>
+
+                <button type="button" class="list-group-item list-group-item-action ml-3 options"
+                        th:onclick="'window.location.href=\'/credit-purchases/data-analysis/invoice-values\''">Invoice Values</button>
+
+                <button type="button" class="list-group-item list-group-item-action"
+                        th:onclick="'window.location.href=\'/debit-purchases\''">Debit Purchases</button>
+
+                <button type="button" class="list-group-item list-group-item-action ml-3 options"
+                        th:onclick="'window.location.href=\'/debit-purchases/data-analysis/transaction-type-values\''">Transaction Type Values</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<div class="container" th:fragment="form(debitPurchaseRequisition, action)">
+    <div class="row">
+        <form th:object="${debitPurchaseRequisition}"
+              th:action="${action}" method="POST">
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input class="form-control" th:errorclass="is-invalid" type="text" th:field="*{name}">
+                <div class="invalid-feedback" th:errors="*{name}"></div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Category</label>
+                <select class="form-select" th:field="*{category}">
+                    <option value="" style="display: none;">Select here your category</option>
+                    <option th:each="category: ${categories}"
+                            th:value="${category}" th:text="${category}"></option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Transaction Type</label>
+                <select class="form-select" th:field="*{transactionType}">
+                    <option value="" style="display: none;">Select here your transaction type</option>
+                    <option th:each="transactionType: ${transactionTypes}"
+                            th:value="${transactionType}" th:text="${transactionType}"></option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Price</label>
+                <input class="form-control" th:errorclass="is-invalid" type="text" th:field="*{price}">
+                <div class="invalid-feedback" th:errors="*{price}"></div>
+            </div>
+            <button class="btn btn-primary" type="submit">Submit</button>
+            <a href="javascript:history.back()">Back</a>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head('')}"></head>
+
+<body>
+    <header th:replace="~{fragments :: header('Debit Purchase #' + ${debitPurchase.id})}"></header>
+
+    <div class="container mt-4">
+        <div class="col-12">
+            <div class="col-12">
+             <span id="message"
+                   th:classappend="${(param.error != null && param.error) ? 'error-message' : (param.message != null ? 'success-message' : 'no-message')}"
+                   th:text="${param.message != null ? param.message : ''}">
+             </span>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-12">
+                    <b class="var">NAME</b> <span class="value" th:text="${debitPurchase.name}"></span><br/>
+                    <b class="var">CATEGORY</b> <span class="value" th:text="${debitPurchase.category.toString()}"></span><br/>
+                    <b class="var">TRANSACTION TYPE</b> <span class="value" th:text="${debitPurchase.transactionType.toString()}"></span><br/>
+                    <b class="var">PRICE</b> <span class="value" th:text="${debitPurchase.price}"></span><br/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <a th:href="@{/debit-purchases/{debitPurchaseId}/edit(debitPurchaseId = ${debitPurchase.id})}">Edit</a> <a href="/debit-purchases">Back</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/message.js"></script>
+</body>
+</html>

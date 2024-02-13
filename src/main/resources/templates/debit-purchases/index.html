@@ -1,0 +1,76 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head('')}"></head>
+<body>
+<header th:replace="~{fragments :: header('Debit Purchases')}"></header>
+
+<div class="container mt-4">
+    <div class="col-12">
+        <div class="col-12">
+             <span id="message"
+                   th:classappend="${(param.error != null && param.error) ? 'error-message' : (param.message != null ? 'success-message' : 'no-message')}"
+                   th:text="${param.message != null ? param.message : ''}">
+             </span>
+        </div>
+    </div>
+</div>
+
+<div id="confirmation-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Are you sure you want to delete this Debit Purchase?</p>
+        <button id="confirm-button">Yes</button>
+        <button id="cancel-button">Cancel</button>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col" class="custom-color">ID</th>
+                    <th scope="col" class="custom-color">NAME</th>
+                    <th scope="col" class="custom-color">CATEGORY</th>
+                    <th scope="col" class="custom-color">TRANSACTION TYPE</th>
+                    <th scope="col" class="custom-color">PRICE</th>
+                    <th scope="col" class="custom-color"></th>
+                    <th scope="col" class="custom-color"></th>
+                    <th scope="col" class="custom-color"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="debitPurchase : ${debitPurchases}">
+                    <th class="col-1" scope="row" th:text="${debitPurchase.getId()}">ID</th>
+                    <td class="col-3" th:text="${debitPurchase.name}">NAME</td>
+                    <td class="col-2" th:text="${debitPurchase.category.toString()}">CATEGORY</td>
+                    <td class="col-2" th:text="${debitPurchase.transactionType.toString()}">TRANSACTION TYPE</td>
+                    <td class="col-2" th:text="${debitPurchase.price}">PRICE</td>
+                    <td class="col-1"><a th:href="@{/debit-purchases/{debitPurchaseId}(debitPurchaseId = ${debitPurchase.id})}">More...</a></td>
+                    <td class="col-1"><a th:href="@{/debit-purchases/{debitPurchaseId}/edit(debitPurchaseId = ${debitPurchase.id})}">Edit</a></td>
+                    <td class="col-1">
+                        <a th:href="@{/debit-purchases/{debitPurchaseId}/delete(debitPurchaseId = ${debitPurchase.id})}" class="delete-link" onclick="return confirmDelete()">Delete</a>
+                    </td>
+
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <a href="/debit-purchases/new">New debit purchase</a>
+    </div>
+</div>
+
+<script src="/js/confirmation-modal.js"></script>
+<script src="/js/message.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+
+</body>
+</html>
