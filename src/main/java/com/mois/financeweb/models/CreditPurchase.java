@@ -16,6 +16,9 @@ public class CreditPurchase {
     private Category category;
     private BigDecimal price;
 
+    @ManyToOne
+    private User user;
+
     public CreditPurchase(){}
 
     public CreditPurchase(String invoice, String name, Category category, BigDecimal price){
@@ -57,6 +60,14 @@ public class CreditPurchase {
     }
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

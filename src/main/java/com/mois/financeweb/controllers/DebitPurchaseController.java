@@ -1,11 +1,10 @@
 package com.mois.financeweb.controllers;
 
 import com.mois.financeweb.dto.DebitPurchaseRequisition;
-import com.mois.financeweb.models.Category;
-import com.mois.financeweb.models.CreditPurchase;
-import com.mois.financeweb.models.DebitPurchase;
-import com.mois.financeweb.models.TransactionType;
+import com.mois.financeweb.models.*;
+import com.mois.financeweb.repositories.CreditPurchaseRepository;
 import com.mois.financeweb.repositories.DebitPurchaseRepository;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,12 +19,22 @@ import java.util.Optional;
 @RequestMapping(value = "/debit-purchases")
 public class DebitPurchaseController {
     @Autowired
-    private DebitPurchaseRepository debitPurchaseRepository;
+    private final DebitPurchaseRepository debitPurchaseRepository;
+    @Autowired
+    private final UserService userService;
+
+    @Autowired
+    public DebitPurchaseController(DebitPurchaseRepository debitPurchaseRepository, UserService userService) {
+        this.debitPurchaseRepository = debitPurchaseRepository;
+        this.userService = userService;
+    }
 
     @GetMapping("")
-    public ModelAndView index() {
+    public ModelAndView index(HttpSession session) {
 
-        List<DebitPurchase> debitPurchases = this.debitPurchaseRepository.findAll();
+        Long userId = userService.getCurrentUserId(session);
+
+        List<DebitPurchase> debitPurchases = debitPurchaseRepository.findByUserId(userId);
 
         ModelAndView mv = new ModelAndView("debit-purchases/index");
         mv.addObject("debitPurchases", debitPurchases);
@@ -49,7 +58,12 @@ public class DebitPurchaseController {
     }
 
     @PostMapping("")
-    public ModelAndView createDebitPurchase(@Valid DebitPurchaseRequisition req, BindingResult result) {
+    public ModelAndView createDebitPurchase(@Valid DebitPurchaseRequisition req, BindingResult result, HttpSession session) {
+
+        Long userId = userService.getCurrentUserId(session);
+
+        User currentUser = userService.findById(userId);
+
         if (result.hasErrors()) {
 
             ModelAndView mv = new ModelAndView("debit-purchases/new");
@@ -62,6 +76,7 @@ public class DebitPurchaseController {
         }
         else {
             DebitPurchase debitPurchase = req.toDebitPurchase();
+            debitPurchase.setUser(currentUser);
             this.debitPurchaseRepository.save(debitPurchase);
 
             ModelAndView mv = new ModelAndView("redirect:/debit-purchases/" + debitPurchase.getId());

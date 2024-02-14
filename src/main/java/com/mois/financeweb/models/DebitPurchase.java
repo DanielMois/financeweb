@@ -16,6 +16,10 @@ public class DebitPurchase {
     private TransactionType transactionType;
     private BigDecimal price;
 
+    @ManyToOne
+    private User user;
+
+
     public DebitPurchase(){}
 
     public DebitPurchase(TransactionType transactionType, String name, Category category, BigDecimal price){
@@ -54,6 +58,14 @@ public class DebitPurchase {
     }
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

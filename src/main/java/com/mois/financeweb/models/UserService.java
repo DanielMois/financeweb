@@ -1,6 +1,7 @@
 package com.mois.financeweb.models;
 
 import com.mois.financeweb.repositories.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,9 @@ import java.math.BigDecimal;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private HttpSession session;
 
     public void register(User user) {
         userRepository.save(user);
@@ -29,5 +33,13 @@ public class UserService {
             user.setSalary(salary);
             userRepository.save(user);
         }
+    }
+
+    public Long getCurrentUserId(HttpSession session) {
+        return (Long) session.getAttribute("userId");
+    }
+
+    public User findById(Long userId) {
+        return userRepository.findById(userId).orElse(null);
     }
 }

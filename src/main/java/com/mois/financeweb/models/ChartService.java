@@ -11,22 +11,29 @@ import java.util.List;
 public class ChartService {
 
     @Autowired
-    private CreditPurchaseRepository creditPurchaseRepository;
+    private final CreditPurchaseRepository creditPurchaseRepository;
 
     @Autowired
-    private DebitPurchaseRepository debitPurchaseRepository;
+    private final DebitPurchaseRepository debitPurchaseRepository;
 
-    public List<Object[]> getTotalPriceByTransactionType() {
-        return debitPurchaseRepository.findTotalPriceByTransactionType();
+    public ChartService(CreditPurchaseRepository creditPurchaseRepository, DebitPurchaseRepository debitPurchaseRepository) {
+        this.creditPurchaseRepository = creditPurchaseRepository;
+        this.debitPurchaseRepository = debitPurchaseRepository;
     }
 
-    public List<Object[]> getTotalPriceByInvoice() {
-        return creditPurchaseRepository.findTotalPriceByInvoice();
+    public List<Object[]> getTotalPriceByTransactionType(Long userId) {
+        return debitPurchaseRepository.findTotalPriceByTransactionType(userId);
     }
 
-    public List<Object[]> cpGetTotalPriceByCategory() {return creditPurchaseRepository.findTotalPriceByCategory(); }
+    public List<Object[]> getTotalPriceByInvoice(Long userId) {
+        return creditPurchaseRepository.findTotalPriceByInvoice(userId);
+    }
 
-    public List<Object[]> dpGetTotalPriceByCategory() {return debitPurchaseRepository.findTotalPriceByCategory(); }
+    public List<Object[]> cpGetTotalPriceByCategory(Long userId) {
+        return creditPurchaseRepository.findTotalPriceByCategory(userId); }
+
+    public List<Object[]> dpGetTotalPriceByCategory(Long userId) {
+        return debitPurchaseRepository.findTotalPriceByCategory(userId); }
 
 
 

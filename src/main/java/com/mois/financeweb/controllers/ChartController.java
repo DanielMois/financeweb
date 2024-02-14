@@ -1,6 +1,9 @@
 package com.mois.financeweb.controllers;
 
 import com.mois.financeweb.models.ChartService;
+import com.mois.financeweb.models.UserService;
+import com.mois.financeweb.repositories.CreditPurchaseRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,9 +17,19 @@ public class ChartController {
     @Autowired
     private ChartService chartService;
 
+    @Autowired
+    private final UserService userService;
+
+    @Autowired
+    public ChartController(UserService userService) {
+        this.userService = userService;
+    }
+
     @GetMapping("/credit-purchases/getInvoiceValues")
-    public List<Object[]> getTotalPriceByInvoice() {
-        return chartService.getTotalPriceByInvoice();
+    public List<Object[]> getTotalPriceByInvoice(HttpSession session) {
+        Long userId = userService.getCurrentUserId(session);
+
+        return chartService.getTotalPriceByInvoice(userId);
     }
 
     @GetMapping("/credit-purchases/data-analysis/invoice-values")
@@ -25,7 +38,10 @@ public class ChartController {
     }
 
     @GetMapping("/credit-purchases/getCategoryValues")
-    public List<Object[]> getTotalPriceByCategory() { return chartService.cpGetTotalPriceByCategory(); }
+    public List<Object[]> getTotalPriceByCategory(HttpSession session) {
+        Long userId = userService.getCurrentUserId(session);
+        return chartService.cpGetTotalPriceByCategory(userId);
+    }
 
     @GetMapping("/credit-purchases/data-analysis/category-values")
     public ModelAndView cpShowTotalPriceByCategory() {
@@ -33,8 +49,10 @@ public class ChartController {
     }
 
     @GetMapping("/debit-purchases/getTransactionTypeValues")
-    public List<Object[]> getTotalPriceByTransactionType() {
-        return chartService.getTotalPriceByTransactionType();
+    public List<Object[]> getTotalPriceByTransactionType(HttpSession session) {
+        Long userId = userService.getCurrentUserId(session);
+
+        return chartService.getTotalPriceByTransactionType(userId);
     }
 
     @GetMapping("/debit-purchases/data-analysis/transaction-type-values")
@@ -43,7 +61,11 @@ public class ChartController {
     }
 
     @GetMapping("/debit-purchases/getCategoryValues")
-    public List<Object[]> dpGetTotalPriceByCategory() { return chartService.dpGetTotalPriceByCategory(); }
+    public List<Object[]> dpGetTotalPriceByCategory(HttpSession session) {
+        Long userId = userService.getCurrentUserId(session);
+
+        return chartService.dpGetTotalPriceByCategory(userId);
+    }
 
     @GetMapping("/debit-purchases/data-analysis/category-values")
     public ModelAndView dpShowTotalPriceByCategory() {

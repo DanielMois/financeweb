@@ -3,7 +3,10 @@ package com.mois.financeweb.controllers;
 import com.mois.financeweb.dto.CreditPurchaseRequisition;
 import com.mois.financeweb.models.Category;
 import com.mois.financeweb.models.CreditPurchase;
+import com.mois.financeweb.models.User;
+import com.mois.financeweb.models.UserService;
 import com.mois.financeweb.repositories.CreditPurchaseRepository;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,14 +23,22 @@ import java.util.Optional;
 @RequestMapping(value = "/credit-purchases")
 public class CreditPurchaseController {
     @Autowired
-    private CreditPurchaseRepository creditPurchaseRepository;
+    private final CreditPurchaseRepository creditPurchaseRepository;
+    @Autowired
+    private final UserService userService;
+
+    @Autowired
+    public CreditPurchaseController(CreditPurchaseRepository creditPurchaseRepository, UserService userService) {
+        this.creditPurchaseRepository = creditPurchaseRepository;
+        this.userService = userService;
+    }
 
     @GetMapping("")
-    public ModelAndView index(@RequestParam(name = "invoice", required = false) String invoice) {
+    public ModelAndView index(@RequestParam(name = "invoice", required = false) String invoice, HttpSession session) {
 
-        List<CreditPurchase> creditPurchases;
+        Long userId = userService.getCurrentUserId(session);
 
-        creditPurchases = this.creditPurchaseRepository.findAll();
+        List<CreditPurchase> creditPurchases = creditPurchaseRepository.findByUserId(userId);
 
         ModelAndView mv = new ModelAndView("credit-purchases/index");
         mv.addObject("creditPurchases", creditPurchases);
@@ -50,7 +61,12 @@ public class CreditPurchaseController {
     }
 
     @PostMapping("")
-    public ModelAndView createCreditPurchase(@Valid CreditPurchaseRequisition req, BindingResult result) {
+    public ModelAndView createCreditPurchase(@Valid CreditPurchaseRequisition req, BindingResult result, HttpSession session) {
+
+        Long userId = userService.getCurrentUserId(session);
+
+        User currentUser = userService.findById(userId);
+
         if (result.hasErrors()) {
             ModelAndView mv = new ModelAndView("credit-purchases/new");
             mv.addObject("categories", Category.values());
@@ -59,6 +75,7 @@ public class CreditPurchaseController {
         }
         else {
             CreditPurchase creditPurchase = req.toCreditPurchase();
+            creditPurchase.setUser(currentUser);
             this.creditPurchaseRepository.save(creditPurchase);
             ModelAndView mv = new ModelAndView("redirect:/credit-purchases/" + creditPurchase.getId());
             mv.addObject("error", false);
