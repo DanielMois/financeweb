@@ -26,6 +26,7 @@ public class HomeController {
 
         User currentUser = userService.findById(userId);
         model.addAttribute("currentBalance", currentUser.getCurrentBalance());
+        model.addAttribute("username", currentUser.getName());
 
 
         return "home";

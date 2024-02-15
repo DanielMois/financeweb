@@ -4,7 +4,7 @@
 <head th:replace="~{fragments :: head('')}"></head>
 
 <body>
-<header th:replace="~{fragments :: header('Finance Application | Daniel Mois')}"></header>
+<header th:replace="~{fragments :: header('Finance Application | ' + ${username})}"></header>
 
     <main>
         <div class="container mt-4">
