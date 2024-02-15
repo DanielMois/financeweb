@@ -9,9 +9,9 @@
     <main>
         <div class="container mt-4">
 
-            <div class="card mb-3 text-center">
+            <div class="card rounded mb-3 text-center">
                 <div class="card-header">Current Balance</div>
-                <div class="card-body" th:classappend="${currentBalance > 0} ? 'text-success' : 'text-danger'">
+                <div class="card-body rounded" th:classappend="${currentBalance > 0} ? 'text-success' : 'text-danger'">
                     <h5>
                         R$ <span th:text="${currentBalance}"></span>
                     </h5>
