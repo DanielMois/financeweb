@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Service
 public class UserService {
@@ -16,6 +17,9 @@ public class UserService {
     private HttpSession session;
 
     public void register(User user) {
+
+        user.setCreateDate(new Date());
+        user.setCurrentBalance(user.getFirstBalance());
         userRepository.save(user);
     }
 

@@ -35,7 +35,7 @@
             <table id="creditPurchasesIndex" class="table table-hover">
                 <thead>
                 <tr>
-                    <th scope="col" class="custom-color">ID</th>
+
                     <th scope="col" class="custom-color">INVOICE</th>
                     <th scope="col" class="custom-color">NAME</th>
                     <th scope="col" class="custom-color">CATEGORY</th>
@@ -47,7 +47,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="creditPurchase : ${creditPurchases}">
-                    <th class="col-1" scope="row" th:text="${creditPurchase.getId()}">ID</th>
+
                     <td class="col-2" th:text="${creditPurchase.invoice}">INVOICE</td>
                     <td class="col-3" th:text="${creditPurchase.name}">NAME</td>
                     <td class="col-2" th:text="${creditPurchase.category.toString()}">CATEGORY</td>

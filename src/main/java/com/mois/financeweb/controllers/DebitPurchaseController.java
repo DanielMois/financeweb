@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,6 +78,16 @@ public class DebitPurchaseController {
         else {
             DebitPurchase debitPurchase = req.toDebitPurchase();
             debitPurchase.setUser(currentUser);
+
+            BigDecimal price = debitPurchase.getPrice();
+            TransactionType transactionType = debitPurchase.getTransactionType();
+
+            if (transactionType == TransactionType.IN) {
+                currentUser.setCurrentBalance(currentUser.getCurrentBalance().add(price));
+            } else if (transactionType == TransactionType.OUT) {
+                currentUser.setCurrentBalance(currentUser.getCurrentBalance().subtract(price));
+            }
+
             this.debitPurchaseRepository.save(debitPurchase);
 
             ModelAndView mv = new ModelAndView("redirect:/debit-purchases/" + debitPurchase.getId());

@@ -33,7 +33,7 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th scope="col" class="custom-color">ID</th>
+
                     <th scope="col" class="custom-color">NAME</th>
                     <th scope="col" class="custom-color">CATEGORY</th>
                     <th scope="col" class="custom-color">TRANSACTION TYPE</th>
@@ -45,7 +45,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="debitPurchase : ${debitPurchases}">
-                    <th class="col-1" scope="row" th:text="${debitPurchase.getId()}">ID</th>
+
                     <td class="col-3" th:text="${debitPurchase.name}">NAME</td>
                     <td class="col-2" th:text="${debitPurchase.category.toString()}">CATEGORY</td>
                     <td class="col-2" th:text="${debitPurchase.transactionType.toString()}">TRANSACTION TYPE</td>

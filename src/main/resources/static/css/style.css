@@ -158,4 +158,26 @@ button:hover {
     border: none;
 }
 
+.card {
+    max-width: 300px;
+    margin: 0 auto;
+    border: none;
+}
 
+.card-header {
+    background-color: #BBFFFF;
+    color: #000000;
+    font-weight: bold;
+}
+
+.text-success {
+    background-color: #FFF;
+    color: #198754 !important;
+
+}
+
+.text-danger {
+    background-color: #FFF;
+    color: #dc3545 !important;
+
+}

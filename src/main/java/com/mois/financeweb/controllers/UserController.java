@@ -36,7 +36,6 @@ public class UserController {
             return "redirect:/register-form";
         }
 
-        user.setCreateDate(new Date());
         userService.register(user);
         return "redirect:/login-form";
     }

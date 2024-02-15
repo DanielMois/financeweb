@@ -8,6 +8,16 @@
 
     <main>
         <div class="container mt-4">
+
+            <div class="card mb-3 text-center">
+                <div class="card-header">Current Balance</div>
+                <div class="card-body" th:classappend="${currentBalance > 0} ? 'text-success' : 'text-danger'">
+                    <h5>
+                        R$ <span th:text="${currentBalance}"></span>
+                    </h5>
+                </div>
+            </div>
+
             <div class="list-group">
                 <button type="button" class="list-group-item list-group-item-action"
                     th:onclick="'window.location.href=\'/credit-purchases\''">Credit Purchases</button>

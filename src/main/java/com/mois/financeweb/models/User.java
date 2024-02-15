@@ -19,6 +19,7 @@ public class User {
     private String password;
     private BigDecimal salary;
     private BigDecimal firstBalance;
+    private BigDecimal currentBalance;
 
     private Date createDate;
 
@@ -77,5 +78,14 @@ public class User {
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
+
+    public BigDecimal getCurrentBalance() {
+        return currentBalance;
+    }
+
+    public void setCurrentBalance(BigDecimal currentBalance) {
+        this.currentBalance = currentBalance;
+    }
+
 
 }
