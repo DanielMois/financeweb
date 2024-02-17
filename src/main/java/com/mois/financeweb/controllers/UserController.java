@@ -64,7 +64,7 @@ public class UserController {
         }
 
         User user = req.toUser();
-        this.userRepository.save(user);
+        userService.register(user);
         mv.addObject("error", false);
         mv.setViewName("redirect:/home");
 

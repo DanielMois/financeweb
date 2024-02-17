@@ -164,18 +164,26 @@ public class DebitPurchaseController {
     }
 
     @GetMapping("/{id}/delete")
-    public ModelAndView delete(@PathVariable long id) {
+    public ModelAndView delete(@PathVariable long id, HttpSession session) {
         ModelAndView mv = new ModelAndView("redirect:/debit-purchases");
         Optional<DebitPurchase> optional = this.debitPurchaseRepository.findById(id);
 
         if (optional.isPresent())
             try{
-                System.out.println(optional);
 
-                // Obtém a CreditPurchase associada ao ID fornecido
+                Long userId = userService.getCurrentUserId(session);
+                User currentUser = userService.findById(userId);
+
                 DebitPurchase debitPurchaseToDelete = optional.get();
+                BigDecimal price = debitPurchaseToDelete.getPrice();
+                TransactionType transactionType = debitPurchaseToDelete.getTransactionType();
 
-                // Exclui a CreditPurchase
+                if (transactionType == TransactionType.IN) {
+                    currentUser.setCurrentBalance(currentUser.getCurrentBalance().subtract(price));
+                } else if (transactionType == TransactionType.OUT) {
+                    currentUser.setCurrentBalance(currentUser.getCurrentBalance().add(price));
+                }
+
                 this.debitPurchaseRepository.delete(debitPurchaseToDelete);
 
                 mv.addObject("error", false);
