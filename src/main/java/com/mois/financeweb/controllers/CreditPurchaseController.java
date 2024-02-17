@@ -54,11 +54,11 @@ public class CreditPurchaseController {
         return mv;
     }
 
-    @ModelAttribute(value = "newCreditPurchaseRequisition")
-    public CreditPurchaseRequisition newCreditPurchaseRequisition()
-    {
-        return new CreditPurchaseRequisition();
-    }
+        @ModelAttribute(value = "newCreditPurchaseRequisition")
+        public CreditPurchaseRequisition newCreditPurchaseRequisition()
+        {
+            return new CreditPurchaseRequisition();
+        }
 
     @PostMapping("")
     public ModelAndView createCreditPurchase(@Valid CreditPurchaseRequisition req, BindingResult result, HttpSession session) {
