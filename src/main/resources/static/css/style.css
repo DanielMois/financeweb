@@ -160,6 +160,15 @@ body {
     border-color: #BBFFFF;
 }
 
+.list-group-item.list-group-item-action.logout {
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.2;
+    background-color: #ff6961;
+    border-color: #ff6961;
+    font-weight: bold;
+}
+
 button {
     background-color: #008CBA;
     color: white;

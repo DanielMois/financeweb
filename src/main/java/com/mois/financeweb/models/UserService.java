@@ -31,6 +31,10 @@ public class UserService {
         return null;
     }
 
+    public void logout() {
+        session.invalidate();
+    }
+
     public void updateSalary(Long userId, BigDecimal salary) {
         User user = userRepository.findById(userId).orElse(null);
         if (user != null) {

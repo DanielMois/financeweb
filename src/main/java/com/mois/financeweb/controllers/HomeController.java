@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 
 @Controller
+@SessionAttributes("userId")
 public class HomeController {
 
     private final UserService userService;
@@ -30,5 +33,11 @@ public class HomeController {
 
 
         return "home";
+    }
+
+    @PostMapping("/logout")
+    public String logout(Model model, HttpSession session) {
+        userService.logout();
+        return "redirect:/";
     }
 }

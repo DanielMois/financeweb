@@ -36,6 +36,10 @@
 
                 <button type="button" class="list-group-item list-group-item-action ml-3 options"
                         th:onclick="'window.location.href=\'/debit-purchases/data-analysis/category-values\''">DP | Category Values</button>
+
+                <form action="/logout" method="post">
+                    <button type="submit" class="list-group-item list-group-item-action ml-3 logout">Log Out</button>
+                </form>
             </div>
         </div>
     </main>

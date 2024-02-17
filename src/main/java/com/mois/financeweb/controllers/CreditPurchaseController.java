@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping(value = "/credit-purchases")
 public class CreditPurchaseController {
     @Autowired
     private final CreditPurchaseRepository creditPurchaseRepository;
@@ -33,10 +32,14 @@ public class CreditPurchaseController {
         this.userService = userService;
     }
 
-    @GetMapping("")
+    @GetMapping("/credit-purchases")
     public ModelAndView index(@RequestParam(name = "invoice", required = false) String invoice, HttpSession session) {
 
         Long userId = userService.getCurrentUserId(session);
+
+        if (userId == null) {
+            return new ModelAndView("redirect:/index");
+        }
 
         List<CreditPurchase> creditPurchases = creditPurchaseRepository.findByUserId(userId);
 
@@ -46,7 +49,7 @@ public class CreditPurchaseController {
         return mv;
     }
 
-    @GetMapping("/new")
+    @GetMapping("/credit-purchases/new")
     public ModelAndView newCreditPurchase(CreditPurchaseRequisition req) {
         ModelAndView mv = new ModelAndView("credit-purchases/new");
         mv.addObject("categories", Category.values());
@@ -60,7 +63,7 @@ public class CreditPurchaseController {
             return new CreditPurchaseRequisition();
         }
 
-    @PostMapping("")
+    @PostMapping("/credit-purchases")
     public ModelAndView createCreditPurchase(@Valid CreditPurchaseRequisition req, BindingResult result, HttpSession session) {
 
         Long userId = userService.getCurrentUserId(session);
@@ -85,7 +88,7 @@ public class CreditPurchaseController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/credit-purchases/{id}")
     public ModelAndView show(@PathVariable Long id) {
         Optional<CreditPurchase> optional = this.creditPurchaseRepository.findById(id);
 
@@ -99,7 +102,7 @@ public class CreditPurchaseController {
         }
     }
 
-    @GetMapping("/{id}/edit")
+    @GetMapping("/credit-purchases/{id}/edit")
     public ModelAndView edit(@PathVariable long id, CreditPurchaseRequisition req){
 
         Optional<CreditPurchase> optional = this.creditPurchaseRepository.findById(id);
@@ -117,7 +120,7 @@ public class CreditPurchaseController {
         }
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/credit-purchases/{id}")
     public ModelAndView update(@PathVariable long id, @Valid CreditPurchaseRequisition req, BindingResult result) {
 
         if (result.hasErrors()) {
@@ -149,7 +152,7 @@ public class CreditPurchaseController {
         }
     }
 
-    @GetMapping("/{id}/delete")
+    @GetMapping("/credit-purchases/{id}/delete")
     public ModelAndView delete(@PathVariable long id) {
         ModelAndView mv = new ModelAndView("redirect:/credit-purchases");
         Optional<CreditPurchase> optional = this.creditPurchaseRepository.findById(id);
