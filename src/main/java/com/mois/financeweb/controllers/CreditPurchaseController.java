@@ -38,7 +38,7 @@ public class CreditPurchaseController {
         Long userId = userService.getCurrentUserId(session);
 
         if (userId == null) {
-            return new ModelAndView("redirect:/index");
+            return new ModelAndView("redirect:/");
         }
 
         List<CreditPurchase> creditPurchases = creditPurchaseRepository.findByUserId(userId);
