@@ -85,6 +85,8 @@ public class DebitPurchaseController {
 
     @GetMapping("/{id}")
     public ModelAndView show(@PathVariable Long id) {
+        
+        @SuppressWarnings("null")
         Optional<DebitPurchase> optional = this.debitPurchaseRepository.findById(id);
 
         if(optional.isPresent()) {

@@ -1,7 +1,6 @@
 package com.mois.financeweb.dto;
 
 import com.mois.financeweb.models.Category;
-import com.mois.financeweb.models.CreditPurchase;
 import com.mois.financeweb.models.DebitPurchase;
 import com.mois.financeweb.models.TransactionType;
 import jakarta.validation.constraints.DecimalMin;

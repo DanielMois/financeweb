@@ -1,16 +1,11 @@
 package com.mois.financeweb.dto;
 
-import com.mois.financeweb.models.CreditPurchase;
 import com.mois.financeweb.models.User;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 public class UserRequisition {
 

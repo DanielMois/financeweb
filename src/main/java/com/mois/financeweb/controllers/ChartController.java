@@ -2,7 +2,6 @@ package com.mois.financeweb.controllers;
 
 import com.mois.financeweb.models.ChartService;
 import com.mois.financeweb.models.UserService;
-import com.mois.financeweb.repositories.CreditPurchaseRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

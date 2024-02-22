@@ -85,6 +85,7 @@ public class CreditPurchaseController {
     }
 
     @GetMapping("/credit-purchases/{id}")
+    @SuppressWarnings("null")
     public ModelAndView show(@PathVariable Long id) {
         Optional<CreditPurchase> optional = this.creditPurchaseRepository.findById(id);
 

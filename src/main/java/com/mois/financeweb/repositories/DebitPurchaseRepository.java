@@ -1,6 +1,5 @@
 package com.mois.financeweb.repositories;
 
-import com.mois.financeweb.models.CreditPurchase;
 import com.mois.financeweb.models.DebitPurchase;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

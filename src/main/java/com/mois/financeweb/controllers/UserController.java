@@ -1,11 +1,8 @@
 package com.mois.financeweb.controllers;
 
-import com.mois.financeweb.dto.CreditPurchaseRequisition;
 import com.mois.financeweb.dto.UserRequisition;
 import com.mois.financeweb.models.User;
 import com.mois.financeweb.models.UserService;
-import com.mois.financeweb.repositories.CreditPurchaseRepository;
-import com.mois.financeweb.repositories.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +14,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Date;
 
 @Controller
 public class UserController {
-    @Autowired
-    private UserService userService;
 
     @Autowired
-    private UserRepository userRepository;
+    private final UserService userService;
+
+        @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
 
     //Mapeando caminho para formulário de registro inicial

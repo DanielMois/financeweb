@@ -35,6 +35,7 @@ public class UserService {
         session.invalidate();
     }
 
+    @SuppressWarnings("null")
     public void updateSalary(Long userId, BigDecimal salary) {
         User user = userRepository.findById(userId).orElse(null);
         if (user != null) {
@@ -47,6 +48,7 @@ public class UserService {
         return (Long) session.getAttribute("userId");
     }
 
+    @SuppressWarnings("null")
     public User findById(Long userId) {
         return userRepository.findById(userId).orElse(null);
     }
