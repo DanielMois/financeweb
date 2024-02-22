@@ -1,25 +1,18 @@
 package com.mois.financeweb.controllers;
 
 import com.mois.financeweb.dto.CreditPurchaseRequisition;
-import com.mois.financeweb.models.Category;
-import com.mois.financeweb.models.CreditPurchase;
-import com.mois.financeweb.models.User;
-import com.mois.financeweb.models.UserService;
+import com.mois.financeweb.models.*;
 import com.mois.financeweb.repositories.CreditPurchaseRepository;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.text.SimpleDateFormat;
 
 
 @Controller
@@ -27,11 +20,15 @@ public class CreditPurchaseController {
     @Autowired
     private final CreditPurchaseRepository creditPurchaseRepository;
     @Autowired
+    private final CreditPurchaseService creditPurchaseService;
+    @Autowired
     private final UserService userService;
 
+
     @Autowired
-    public CreditPurchaseController(CreditPurchaseRepository creditPurchaseRepository, UserService userService) {
+    public CreditPurchaseController(CreditPurchaseRepository creditPurchaseRepository, CreditPurchaseService creditPurchaseService, UserService userService) {
         this.creditPurchaseRepository = creditPurchaseRepository;
+        this.creditPurchaseService = creditPurchaseService;
         this.userService = userService;
     }
 
@@ -60,18 +57,14 @@ public class CreditPurchaseController {
         return mv;
     }
 
-        @ModelAttribute(value = "newCreditPurchaseRequisition")
-        public CreditPurchaseRequisition newCreditPurchaseRequisition()
+    @ModelAttribute(value = "newCreditPurchaseRequisition")
+    public CreditPurchaseRequisition newCreditPurchaseRequisition()
         {
             return new CreditPurchaseRequisition();
         }
 
     @PostMapping("/credit-purchases")
-    public ModelAndView createCreditPurchase(@Valid CreditPurchaseRequisition req, BindingResult result, HttpSession session) {
-
-        Long userId = userService.getCurrentUserId(session);
-
-        User currentUser = userService.findById(userId);
+    public ModelAndView createCreditPurchase(@Valid CreditPurchaseRequisition req, BindingResult result) {
 
         if (result.hasErrors()) {
             ModelAndView mv = new ModelAndView("credit-purchases/new");
@@ -81,16 +74,7 @@ public class CreditPurchaseController {
         }
         else {
 
-            CreditPurchase creditPurchase = req.toCreditPurchase();
-            creditPurchase.setUser(currentUser);
-            creditPurchase.setCreateDate(new Date());
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMM");
-
-
-            System.out.println(creditPurchase.getCreateDate());
-            creditPurchase.setInvoice(dateFormat.format(creditPurchase.getCreateDate()));
-            this.creditPurchaseRepository.save(creditPurchase);
+            CreditPurchase creditPurchase = creditPurchaseService.createCreditPurchase(req);
 
             ModelAndView mv = new ModelAndView("redirect:/credit-purchases/" + creditPurchase.getId());
             mv.addObject("error", false);
@@ -146,17 +130,16 @@ public class CreditPurchaseController {
             Optional<CreditPurchase> optional = this.creditPurchaseRepository.findById(id);
 
             if(optional.isPresent()) {
+                CreditPurchase updatedCreditPurchase = creditPurchaseService.editCreditPurchase(optional.get(), req);
 
-                CreditPurchase creditPurchase = req.toCreditPurchase(optional.get());
-                creditPurchase.setInvoice(optional.get().getInvoice());
-                this.creditPurchaseRepository.save(creditPurchase);
-
-                ModelAndView mv = new ModelAndView("redirect:/credit-purchases/" + creditPurchase.getId());
+                ModelAndView mv = new ModelAndView("redirect:/credit-purchases/" + updatedCreditPurchase.getId());
                 mv.addObject("error", false);
                 mv.addObject("message", "Credit Purchase #" + id + " updated successfully!");
 
                 return mv;
+
             } else {
+
                 ModelAndView mv = new ModelAndView("redirect:/credit-purchases");
                 mv.addObject("error", true);
                 mv.addObject("message", "Credit Purchase #" + id + " not found.");
@@ -173,7 +156,6 @@ public class CreditPurchaseController {
 
         if (optional.isPresent())
             try{
-                System.out.println(optional);
                 this.creditPurchaseRepository.deleteById(id);
                 mv.addObject("error", false);
                 mv.addObject("message", "Credit Purchase #" + id + " deleted successfully!");

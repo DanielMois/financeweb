@@ -2,7 +2,6 @@ package com.mois.financeweb.controllers;
 
 import com.mois.financeweb.dto.DebitPurchaseRequisition;
 import com.mois.financeweb.models.*;
-import com.mois.financeweb.repositories.CreditPurchaseRepository;
 import com.mois.financeweb.repositories.DebitPurchaseRepository;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -22,11 +21,14 @@ public class DebitPurchaseController {
     @Autowired
     private final DebitPurchaseRepository debitPurchaseRepository;
     @Autowired
+    private final DebitPurchaseService debitPurchaseService;
+    @Autowired
     private final UserService userService;
 
     @Autowired
-    public DebitPurchaseController(DebitPurchaseRepository debitPurchaseRepository, UserService userService) {
+    public DebitPurchaseController(DebitPurchaseRepository debitPurchaseRepository,DebitPurchaseService debitPurchaseService, UserService userService) {
         this.debitPurchaseRepository = debitPurchaseRepository;
+        this.debitPurchaseService = debitPurchaseService;
         this.userService = userService;
     }
 
@@ -59,11 +61,7 @@ public class DebitPurchaseController {
     }
 
     @PostMapping("")
-    public ModelAndView createDebitPurchase(@Valid DebitPurchaseRequisition req, BindingResult result, HttpSession session) {
-
-        Long userId = userService.getCurrentUserId(session);
-
-        User currentUser = userService.findById(userId);
+    public ModelAndView createDebitPurchase(@Valid DebitPurchaseRequisition req, BindingResult result) {
 
         if (result.hasErrors()) {
 
@@ -76,19 +74,7 @@ public class DebitPurchaseController {
             return mv;
         }
         else {
-            DebitPurchase debitPurchase = req.toDebitPurchase();
-            debitPurchase.setUser(currentUser);
-
-            BigDecimal price = debitPurchase.getPrice();
-            TransactionType transactionType = debitPurchase.getTransactionType();
-
-            if (transactionType == TransactionType.IN) {
-                currentUser.setCurrentBalance(currentUser.getCurrentBalance().add(price));
-            } else if (transactionType == TransactionType.OUT) {
-                currentUser.setCurrentBalance(currentUser.getCurrentBalance().subtract(price));
-            }
-
-            this.debitPurchaseRepository.save(debitPurchase);
+            DebitPurchase debitPurchase = debitPurchaseService.createDebitPurchase(req);
 
             ModelAndView mv = new ModelAndView("redirect:/debit-purchases/" + debitPurchase.getId());
             mv.addObject("error", false);
@@ -145,15 +131,15 @@ public class DebitPurchaseController {
             Optional<DebitPurchase> optional = this.debitPurchaseRepository.findById(id);
 
             if(optional.isPresent()) {
-                DebitPurchase debitPurchase = req.toDebitPurchase(optional.get());
-                this.debitPurchaseRepository.save(debitPurchase);
+                DebitPurchase updatedDebitPurchase = debitPurchaseService.editDebitPurchase(optional.get(), req);
 
-                ModelAndView mv = new ModelAndView("redirect:/debit-purchases/" + debitPurchase.getId());
+                ModelAndView mv = new ModelAndView("redirect:/debit-purchases/" + updatedDebitPurchase.getId());
                 mv.addObject("error", false);
-                mv.addObject("message", "Debit Purchase #" + debitPurchase.getId() + " updated successfully!");
+                mv.addObject("message", "Debit Purchase #" + updatedDebitPurchase.getId() + " updated successfully!");
 
                 return mv;
             } else {
+
                 ModelAndView mv = new ModelAndView("redirect:/debit-purchases");
                 mv.addObject("error", true);
                 mv.addObject("message", "Something went wrong.");
