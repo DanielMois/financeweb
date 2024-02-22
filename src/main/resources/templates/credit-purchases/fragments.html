@@ -3,11 +3,6 @@
         <form th:object="${creditPurchaseRequisition}"
               th:action="${action}" method="POST">
             <div class="mb-3">
-                <label class="form-label">Invoice</label>
-                <input class="form-control" th:errorclass="is-invalid" type="text" th:field="*{invoice}">
-                <div class="invalid-feedback" th:errors="*{invoice}"></div>
-            </div>
-            <div class="mb-3">
                 <label class="form-label">Name</label>
                 <input class="form-control" th:errorclass="is-invalid" type="text" th:field="*{name}">
                 <div class="invalid-feedback" th:errors="*{name}"></div>

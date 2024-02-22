@@ -35,18 +35,6 @@ public class UserController {
         return "register-form";
     }
 
-    //Mapeando criação de novo usuário
-//    @PostMapping("/register")
-//    public String register(@ModelAttribute("user") User user) {
-//
-//        if (userRepository.findByLogin(user.getLogin()) != null) {
-//            return "redirect:/register-form";
-//        }
-//
-//        userService.register(user);
-//        return "redirect:/login-form";
-//    }
-
         @ModelAttribute(value = "newUserRequisition")
         public UserRequisition newUserRequisition()
         {

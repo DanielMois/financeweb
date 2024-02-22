@@ -10,8 +10,6 @@ import java.math.BigDecimal;
 
 public class CreditPurchaseRequisition {
 
-    @NotBlank
-    @NotNull
     private String invoice;
     @NotBlank
     @NotNull
@@ -56,7 +54,6 @@ public class CreditPurchaseRequisition {
 
     public CreditPurchase toCreditPurchase() {
         CreditPurchase creditPurchase = new CreditPurchase();
-        creditPurchase.setInvoice(this.invoice);
         creditPurchase.setName(this.name);
         creditPurchase.setCategory(this.category);
         creditPurchase.setPrice(this.price);
@@ -65,7 +62,7 @@ public class CreditPurchaseRequisition {
     }
 
     public CreditPurchase toCreditPurchase(CreditPurchase creditPurchase) {
-        creditPurchase.setInvoice(this.invoice);
+
         creditPurchase.setName(this.name);
         creditPurchase.setCategory(this.category);
         creditPurchase.setPrice(this.price);

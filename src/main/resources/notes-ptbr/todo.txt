@@ -3,11 +3,13 @@ Autenticação do Usuário - Entender e aplicar Spring Security
 Estabelecer lógica de administração da aplicação
     Login e página que cuidem exclusivamente do controle de usuários e eventos
 
+Criação de CreditPurchaseService e DebitPurchaseService
+
 Preencher variável credit_purchases.invoice automaticamente a partir da data de criação do evento de crédito
-    ao invés de deixar o campo aberto para o usuário
+    ao invés de deixar o campo aberto para o usuário --> FEITO
 
 Ajustar ordenação do gráfico localizado em credit-purchases/data-analysis/invoice-values.html (será possível 
-    após invoice tornar-se campo de data)
+    após invoice tornar-se campo de data) --> FEITO
 
 Inclusão de banner de certeza ao log-out (Você tem certeza que deseja sair da aplicação)
 

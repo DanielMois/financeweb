@@ -3,6 +3,7 @@ package com.mois.financeweb.models;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
 public class CreditPurchase {
@@ -15,6 +16,8 @@ public class CreditPurchase {
     @Enumerated(EnumType.STRING)
     private Category category;
     private BigDecimal price;
+    private Date createDate;
+
 
     @ManyToOne
     private User user;
@@ -68,6 +71,14 @@ public class CreditPurchase {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     @Override

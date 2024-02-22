@@ -16,8 +16,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.text.SimpleDateFormat;
+
 
 @Controller
 public class CreditPurchaseController {
@@ -77,9 +80,18 @@ public class CreditPurchaseController {
             return mv;
         }
         else {
+
             CreditPurchase creditPurchase = req.toCreditPurchase();
             creditPurchase.setUser(currentUser);
+            creditPurchase.setCreateDate(new Date());
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMM");
+
+
+            System.out.println(creditPurchase.getCreateDate());
+            creditPurchase.setInvoice(dateFormat.format(creditPurchase.getCreateDate()));
             this.creditPurchaseRepository.save(creditPurchase);
+
             ModelAndView mv = new ModelAndView("redirect:/credit-purchases/" + creditPurchase.getId());
             mv.addObject("error", false);
             mv.addObject("message", "Credit Purchase #" + creditPurchase.getId() + " created successfully!");
@@ -134,7 +146,9 @@ public class CreditPurchaseController {
             Optional<CreditPurchase> optional = this.creditPurchaseRepository.findById(id);
 
             if(optional.isPresent()) {
+
                 CreditPurchase creditPurchase = req.toCreditPurchase(optional.get());
+                creditPurchase.setInvoice(optional.get().getInvoice());
                 this.creditPurchaseRepository.save(creditPurchase);
 
                 ModelAndView mv = new ModelAndView("redirect:/credit-purchases/" + creditPurchase.getId());
